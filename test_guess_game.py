@@ -1,5 +1,5 @@
 import unittest
-from guess_game import GuessGame
+from GuessGame import GuessGame
 
 class TestGuessGame(unittest.TestCase):
     def test_random_number_generation(self):

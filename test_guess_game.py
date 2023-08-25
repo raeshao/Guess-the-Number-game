@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import patch  # 导入 patch
 from GuessGame import GuessGame
 
 class TestGuessGame(unittest.TestCase):

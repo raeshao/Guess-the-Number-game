@@ -1,7 +1,6 @@
 import unittest
-from unittest.mock import patch  # 导入 patch
+from unittest.mock import patch  # import patch
 from GuessGame import GuessGame
-
 class TestGuessGame(unittest.TestCase):
     def test_random_number_generation(self):
         game = GuessGame()

@@ -1,17 +1,23 @@
+"""Guess game"""
 import random
 
+
 class GuessGame:
+    """Class reprenting Guess Game"""
     def __init__(self):
         self.secret_number = self.generate_secret_number()
         self.attempts = 0
 
     def generate_secret_number(self):
+        """Function: generate secret number"""
         return str(random.randint(1000, 9999))
 
     def get_guess(self):
+        """Function: get guess"""
         return input("Enter your guess: ")
 
     def evaluate_guess(self, guess):
+        """Function: evaluate guess"""
         self.attempts += 1
         if guess == self.secret_number:
             return "Congratulations! You guessed the number in {} attempts.".format(self.attempts)
@@ -20,6 +26,7 @@ class GuessGame:
             return "Hint: {}".format(hint)
 
     def generate_hint(self, guess):
+        """Function: generate hint"""
         hint = ''
         for i in range(4):
             if guess[i] == self.secret_number[i]:
@@ -31,6 +38,7 @@ class GuessGame:
         return hint
 
     def play(self):
+        """Function: play"""
         print("Welcome to the Number Guessing Game!")
         while True:
             guess = self.get_guess()
@@ -41,6 +49,7 @@ class GuessGame:
             print(result)
             if guess == self.secret_number:
                 break
+
 
 if __name__ == "__main__":
     game = GuessGame()

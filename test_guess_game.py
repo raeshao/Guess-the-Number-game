@@ -1,35 +1,34 @@
 import unittest
-from unittest.mock import patch  # import patch
+from unittest.mock import patch
 from GuessGame import GuessGame
+
 class TestGuessGame(unittest.TestCase):
     def test_random_number_generation(self):
         game = GuessGame()
         self.assertTrue(1000 <= int(game.target_number) <= 9999)
         
     def test_correct_guess(self):
-    game = GuessGame(target_number='1234')  # 使用字符串作为参数
-    result = game.check_guess('1234')
-    self.assertEqual(result, "Congratulations! You guessed the number in 1 attempts.")
+        game = GuessGame(target_number='1234')  # 使用字符串作为参数
+        result = game.check_guess('1234')
+        self.assertEqual(result, "Congratulations! You guessed the number in 1 attempts.")
 
     def test_incorrect_guess(self):
-    game = GuessGame(target_number='5678')  # 使用字符串作为参数
-    result = game.check_guess('1234')
-    self.assertEqual(result, "Hints: circle, , , ")
-
+        game = GuessGame(target_number='5678')  # 使用字符串作为参数
+        result = game.check_guess('1234')
+        self.assertEqual(result, "Hints: circle, , , ")
 
     # new usecase begins
     def test_continuous_guessing(self):
-    game = GuessGame()
-    with patch('builtins.input', side_effect=['1234', 'quit']):
-        result = game.check_guess('1234')  # Simulate the first guess
-        self.assertEqual(result, "Congratulations! You guessed the number in 1 attempts.")
-        
-        # The game should be over now, so any further guesses should return a message about the game being over
-        result = game.check_guess('5678')
-        self.assertEqual(result, "The game is already over. Start a new game.")
-        
-    self.assertEqual(game.attempts, 1)
-
+        game = GuessGame()
+        with patch('builtins.input', side_effect=['1234', 'quit']):
+            result = game.check_guess('1234')  # Simulate the first guess
+            self.assertEqual(result, "Congratulations! You guessed the number in 1 attempts.")
+            
+            # The game should be over now, so any further guesses should return a message about the game being over
+            result = game.check_guess('5678')
+            self.assertEqual(result, "The game is already over. Start a new game.")
+            
+        self.assertEqual(game.attempts, 1)
 
     def test_hints_generation(self):
         game = GuessGame(target_number='1234')
@@ -55,4 +54,5 @@ class TestGuessGame(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
 

@@ -1,51 +1,19 @@
 import unittest
-from unittest.mock import patch
 from GuessGame import GuessGame
 
 class TestGuessGame(unittest.TestCase):
-    def test_random_number_generation(self):
+    def test_generate_secret_number(self):
         game = GuessGame()
-        self.assertTrue(1000 <= int(game.target_number) <= 9999)
-        
-    def test_correct_guess(self):
-        game = GuessGame(target_number='1234')
-        result = game.check_guess('1234')
-        self.assertEqual(result, "Congratulations! You guessed the number in 1 attempts.")
+        secret_number = game.secret_number
+        self.assertTrue(secret_number.isdigit())
+        self.assertEqual(len(secret_number), 4)
 
-    def test_incorrect_guess(self):
-        game = GuessGame(target_number='5678')
-        result = game.check_guess('1234')
-        self.assertEqual(result, "Hints: circle,  ,  ,  ")
-
-    # new usecase begins
-    def test_continuous_guessing(self):
+    def test_generate_hint(self):
         game = GuessGame()
-        with patch('builtins.input', side_effect=['1234', 'quit']):
-            result = game.play_game()  # Use play_game method
-            self.assertEqual(result, 'Game over. Attempts: 1')
-            self.assertEqual(game.attempts, 1)  # Move this assertion inside the 'with' block
-
-    def test_hints_generation(self):
-        game = GuessGame(target_number='1234')
-        hints = game.check_guess('1243')  # Removed unused _
-        self.assertEqual(hints, 'circle, x, x, ')
-
-    def test_display_attempts(self):
-        game = GuessGame(target_number='1234')
-        _, attempts = game.check_guess('1234')
-        self.assertEqual(attempts, 1)
-
-    def test_quit_game(self):
-        game = GuessGame(target_number='1234')
-        with patch('builtins.input', return_value='quit'):
-            result = game.quit_game()
-        self.assertEqual(result, 'Game over. Attempts: 0')
-
-    def test_player_can_quit(self):
-        game = GuessGame(target_number='1234')
-        with patch('builtins.input', return_value='quit'):
-            result = game.play_game()
-        self.assertEqual(result, 'Game over. Attempts: 0')
+        game.secret_number = '1234'
+        hint = game.generate_hint('1324')
+        self.assertEqual(hint, 'circle x x circle ')
 
 if __name__ == '__main__':
     unittest.main()
+

@@ -17,10 +17,17 @@ class TestGuessGame(unittest.TestCase):
         self.assertEqual(result, ("Hints: circle, , , ", 1))
     # new usecase begins
     def test_continuous_guessing(self):
-        game = GuessGame()
-        with patch('builtins.input', side_effect=['1234', 'quit']):
-            game.play_game()
-        self.assertEqual(game.attempts, 1)
+    game = GuessGame()
+    with patch('builtins.input', side_effect=['1234', 'quit']):
+        result = game.check_guess('1234')  # Simulate the first guess
+        self.assertEqual(result, "Congratulations! You guessed the number in 1 attempts.")
+        
+        # The game should be over now, so any further guesses should return a message about the game being over
+        result = game.check_guess('5678')
+        self.assertEqual(result, "The game is already over. Start a new game.")
+        
+    self.assertEqual(game.attempts, 1)
+
 
     def test_hints_generation(self):
         game = GuessGame(target_number='1234')

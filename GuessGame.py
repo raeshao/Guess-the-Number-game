@@ -4,6 +4,7 @@ class GuessGame:
         self.target_number = target_number if target_number is not None else str(random.randint(1000, 9999))
         self.attempts = 0
         self.is_game_over = False
+
     def check_guess(self, guess):
         if self.is_game_over:
             return "The game is already over. Start a new game."

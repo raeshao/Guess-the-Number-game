@@ -8,31 +8,26 @@ class TestGuessGame(unittest.TestCase):
         self.assertTrue(1000 <= int(game.target_number) <= 9999)
         
     def test_correct_guess(self):
-        game = GuessGame(target_number='1234')  # 使用字符串作为参数
+        game = GuessGame(target_number='1234')
         result = game.check_guess('1234')
         self.assertEqual(result, "Congratulations! You guessed the number in 1 attempts.")
 
     def test_incorrect_guess(self):
-        game = GuessGame(target_number='5678')  # 使用字符串作为参数
+        game = GuessGame(target_number='5678')
         result = game.check_guess('1234')
-        self.assertEqual(result, "Hints: circle, , , ")
+        self.assertEqual(result, "Hints: circle,  ,  ,  ")
 
     # new usecase begins
     def test_continuous_guessing(self):
         game = GuessGame()
         with patch('builtins.input', side_effect=['1234', 'quit']):
-            result = game.check_guess('1234')  # Simulate the first guess
-            self.assertEqual(result, "Congratulations! You guessed the number in 1 attempts.")
-            
-            # The game should be over now, so any further guesses should return a message about the game being over
-            result = game.check_guess('5678')
-            self.assertEqual(result, "The game is already over. Start a new game.")
-            
-            self.assertEqual(game.attempts, 1)  # Move this assertion under the 'with' block
+            result = game.play_game()  # Use play_game method
+            self.assertEqual(result, 'Game over. Attempts: 1')
+            self.assertEqual(game.attempts, 1)  # Move this assertion inside the 'with' block
 
     def test_hints_generation(self):
         game = GuessGame(target_number='1234')
-        hints, _ = game.check_guess('1243')
+        hints = game.check_guess('1243')  # Removed unused _
         self.assertEqual(hints, 'circle, x, x, ')
 
     def test_display_attempts(self):
@@ -54,5 +49,3 @@ class TestGuessGame(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-
-

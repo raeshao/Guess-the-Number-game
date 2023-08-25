@@ -11,24 +11,24 @@ class TestGuessGame(unittest.TestCase):
         game = GuessGame(target_number='1234')  # 使用字符串作为参数
         result = game.check_guess('1234')
         self.assertEqual(result, "Congratulations! You guessed the number in 1 attempts.")
-        
-    def test_incorrect_guess(self):
-    game = GuessGame(target_number='5678')  # Using '5678' as target number
-    result = game.check_guess('1234')  # Incorrect guess
-    self.assertEqual(result, "Hints: circle, , , ")
 
+    def test_incorrect_guess(self):
+        game = GuessGame(target_number='5678')  # 使用字符串作为参数
+        result = game.check_guess('1234')
+        self.assertEqual(result, "Hints: circle, , , ")
 
     # new usecase begins
     def test_continuous_guessing(self):
-    game = GuessGame()
-    with patch('builtins.input', side_effect=['1234', 'quit']):
-        result = game.check_guess('1234')  # Correct guess
-        self.assertEqual(result, "Congratulations! You guessed the number in 1 attempts.")
-        
-        result = game.check_guess('5678')
-        self.assertEqual(result, "The game is already over. Start a new game.")
-        
-    self.assertEqual(game.attempts, 1)
+        game = GuessGame()
+        with patch('builtins.input', side_effect=['1234', 'quit']):
+            result = game.check_guess('1234')  # Simulate the first guess
+            self.assertEqual(result, "Congratulations! You guessed the number in 1 attempts.")
+            
+            # The game should be over now, so any further guesses should return a message about the game being over
+            result = game.check_guess('5678')
+            self.assertEqual(result, "The game is already over. Start a new game.")
+            
+            self.assertEqual(game.attempts, 1)  # Move this assertion under the 'with' block
 
     def test_hints_generation(self):
         game = GuessGame(target_number='1234')
@@ -41,11 +41,10 @@ class TestGuessGame(unittest.TestCase):
         self.assertEqual(attempts, 1)
 
     def test_quit_game(self):
-    game = GuessGame(target_number='1234')
-    with patch('builtins.input', return_value='quit'):
-        result = game.quit_game()
-    self.assertEqual(result, 'Game over. Attempts: 0')
-
+        game = GuessGame(target_number='1234')
+        with patch('builtins.input', return_value='quit'):
+            result = game.quit_game()
+        self.assertEqual(result, 'Game over. Attempts: 0')
 
     def test_player_can_quit(self):
         game = GuessGame(target_number='1234')

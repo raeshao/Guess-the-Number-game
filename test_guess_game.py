@@ -15,6 +15,34 @@ class TestGuessGame(unittest.TestCase):
         game = GuessGame(target_number=5678)
         result = game.check_guess(1234)
         self.assertEqual(result, ("Hints: circle, , , ", 1))
+    # new usecase begins
+    def test_continuous_guessing(self):
+        game = GuessGame()
+        with patch('builtins.input', side_effect=['1234', 'quit']):
+            game.play_game()
+        self.assertEqual(game.attempts, 1)
+
+    def test_hints_generation(self):
+        game = GuessGame(target_number='1234')
+        hints, _ = game.check_guess('1243')
+        self.assertEqual(hints, 'circle, x, x, ')
+
+    def test_display_attempts(self):
+        game = GuessGame(target_number='1234')
+        _, attempts = game.check_guess('1234')
+        self.assertEqual(attempts, 1)
+
+    def test_quit_game(self):
+        game = GuessGame(target_number='1234')
+        with patch('builtins.input', return_value='quit'):
+            result = game.quit_game()
+        self.assertEqual(result, 'Game over. Attempts: 0')
+
+    def test_player_can_quit(self):
+        game = GuessGame(target_number='1234')
+        with patch('builtins.input', return_value='quit'):
+            result = game.play_game()
+        self.assertEqual(result, 'Game over. Attempts: 0')
 
 if __name__ == '__main__':
     unittest.main()

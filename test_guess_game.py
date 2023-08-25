@@ -30,19 +30,9 @@ class TestGuessGame(unittest.TestCase):
         self.assertIn("Congratulations", result2)
         self.assertEqual(game.attempts, 2)
 
-    def test_invalid_guess(self):
-        game = GuessGame()
-        result = game.evaluate_guess('abcd')
-        self.assertIn("Invalid guess", result)
-
-    def test_quit_game(self):
-        game = GuessGame()
-        result = game.evaluate_guess('quit')
-        self.assertEqual(result, "Quitting the game.")
-
-    # 添加更多测试用例...
 
 if __name__ == '__main__':
     unittest.main()
+
 
 

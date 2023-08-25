@@ -1,5 +1,8 @@
 import random
-
+class GuessGame:
+    def __init__(self, target_number=None):
+        self.target_number = target_number if target_number else str(random.randint(1000, 9999))
+        self.attempts = 0
 class GuessGame:
     def __init__(self):
         self.target_number = str(random.randint(1000, 9999))

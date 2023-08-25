@@ -1,4 +1,5 @@
 import random
+
 class GuessGame:
     def __init__(self, target_number=None):
         self.target_number = target_number if target_number is not None else str(random.randint(1000, 9999))
@@ -28,3 +29,16 @@ class GuessGame:
     def quit_game(self):
         self.is_game_over = True
         return f"The game has ended. You made {self.attempts} attempts."
+
+    def play_game(self):
+        while not self.is_game_over:
+            guess = input("Enter your guess (or 'quit' to exit): ")
+            if guess.lower() == 'quit':
+                return self.quit_game()
+            result = self.check_guess(guess)
+            print(result)
+
+# ... 其他测试用例 ...
+
+if __name__ == '__main__':
+    unittest.main()
